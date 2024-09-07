@@ -17,7 +17,7 @@ export class OrderService{
         if(!customer){
             throw new Error("No se encontro al usuario")
         }
-        const order = new Order(customer,items);
+        const order = new Order(customer.id,items);
 
         this.orderRepository.save(order);
         return order;

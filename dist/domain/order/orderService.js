@@ -14,7 +14,7 @@ class OrderService {
         if (!customer) {
             throw new Error("No se encontro al usuario");
         }
-        const order = new order_1.Order(customer, items);
+        const order = new order_1.Order(customer.id, items);
         this.orderRepository.save(order);
         return order;
     }

@@ -3,13 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 export class Order{
     id:string;
-    customer:Customer;
+    customer_id:string;
     items:Array<any>;
     status:string;
 
-    constructor(customer:Customer,items:Array<any>){
+    constructor(customer_id:string,items:Array<any>){
         this.id = uuidv4();
-        this.customer = customer;
+        this.customer_id = customer_id;
         this.items = items;
         this.status = 'pending';
     }

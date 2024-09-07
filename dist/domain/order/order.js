@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Order = void 0;
 const uuid_1 = require("uuid");
 class Order {
-    constructor(customer, items) {
+    constructor(customer_id, items) {
         this.id = (0, uuid_1.v4)();
-        this.customer = customer;
+        this.customer_id = customer_id;
         this.items = items;
         this.status = 'pending';
     }

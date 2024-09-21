@@ -1,14 +1,31 @@
-import { IOrderRepository } from "../../domain/order/IOrderRepository";
-import { Order } from "../../domain/order/order";
+import { IOrderRepository } from "../../domain/orders/IOrderRepository";
+import { Order } from "../../domain/orders/order";
+import orderModel from "../persitence/orderModel";
 
 export class OrderRepository implements IOrderRepository{
-    orders:Array<Order> = [];
-    save(order: Order): Order {
-        this.orders.push(order);
-        return order;
+  
+    async save(order: Order): Promise<Order>{
+        try {
+            const newOrder = new orderModel(order);
+            await newOrder.save();
+            return order;
+        } catch (error) {
+            throw error;
+        }
     }
-    findById(id: string): Order | null{
-        return this.orders.find((order:Order)=>order.id == id) || null;
+
+    async findById(id: string): Promise<Order | null> {
+      try {
+            const order = await orderModel.findById(id).exec();
+            if(!order){
+                return null;
+            }
+            const orderObj = new Order(order.customer_id,order.items);
+            console.log(orderObj)
+            return orderObj;
+      } catch (error) {
+        throw error;
+      }
     }
 
 }

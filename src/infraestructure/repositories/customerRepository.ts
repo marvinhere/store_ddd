@@ -1,28 +1,30 @@
 import { Customer } from "../../domain/customer/customer";
 import { ICustomerRepository } from "../../domain/customer/ICustomerRepository";
+import customerModel from "../persitence/customerModel";
 
 export class CustomerRepository implements ICustomerRepository{
-    customers:Array<Customer> = [
-        {
-            id:"abcd",
-            name:"Mario",
-            address:"Panajachel"
-        }
-    ];
-
-    save(customer:Customer): Customer {
-        this.customers.push(customer);
-        return customer;
-    }
-    findById(id: string): Customer | null {
-        const c = this.customers.find((customer:Customer)=>customer.id==id);
-        if(!c){
-            return null;
-        }
-        return c;
-    }
     
+    async save(customer: Customer): Promise<Customer> {
+        try {
+            const customerCreated = new customerModel(customer);
+            await customerCreated.save();
+            return customer;
+        } catch (error) {
+            throw error;
+        }
+    }
 
+    async findById(id: string): Promise<Customer | null> {
+        try {
+            const c = await customerModel.findById(id).exec();
+            if(!c){
+                return null;
+            }
+            const customer = new Customer(c.name,c.address);
+            return customer;
+        } catch (error) {
+            throw error;
+        }
+    }
 
-    
 }

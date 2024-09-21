@@ -1,24 +1,23 @@
-import { Request, Response } from "express";
 import { CustomerService } from "../../domain/customer/customerService";
 
 const customerService = new CustomerService();
 
-export function find(req:Request,res:Response){
+export async function find(req:any,res:any){
     try {
         const id = req.params.id;
-        const customer = customerService.find(id);
-        return res.json(customer)
+        const customer = await customerService.find(id)
+        return res.json(customer);
     } catch (error:any) {
-        return res.status(500).json(error.message);
+        return res.status(500).json(error.message)
     }
 }
 
-export function create(req:Request,res:Response){
+export async function create(req:any,res:any){
     try {
         const {name,address} = req.body;
-        const customer = customerService.create(name,address);
-        return res.json(customer)
-    } catch (error) {
-        return res.status(500).json(error);
+        const customer = await customerService.create(name,address);
+        return res.json(customer);
+    } catch (error:any) {
+        return res.status(500).json(error.message)
     }
 }
